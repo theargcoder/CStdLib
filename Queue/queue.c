@@ -1,29 +1,31 @@
-#include "../LinkedLists/LinkedList.c"
+#include "queue.h"
 #include <limits.h>
 #include <stdlib.h>
 
-typedef struct queue {
-  linked_list *list;
-} queue;
-
-queue *queue_constructor(int val) {
-  queue *que = malloc(sizeof(queue));
+queue *
+queue_constructor (LIST_VALUE_TYPE val)
+{
+  queue *que = malloc (sizeof (queue));
   if (!que)
     return NULL;
 
-  que->list = linked_list_constructor(val);
+  que->list = linked_list_constructor (val);
 
   return (que->list) ? que : NULL;
 }
 
-void queue_destructor(queue *queue) {
+void
+queue_destructor (queue *queue)
+{
   if (!queue)
     return;
-  linked_list_destructor(queue->list);
-  free(queue);
+  linked_list_destructor (queue->list);
+  free (queue);
 }
 
-int queue_top(queue *queue) {
+LIST_VALUE_TYPE
+queue_top (queue *queue)
+{
   if (!queue)
     return INT_MIN; // invalid ass stuff
 
@@ -36,7 +38,9 @@ int queue_top(queue *queue) {
   return list->root->val;
 }
 
-int queue_pop(queue *queue) {
+int
+queue_pop (queue *queue)
+{
   if (!queue)
     return -1; // invalid ass stuff
 
@@ -47,28 +51,31 @@ int queue_pop(queue *queue) {
   if (!list->root)
     return -3; // error 3
 
-  node *tt = list->root;
+  list_node *tt = list->root;
   list->root = list->root->next;
   list->size--;
 
-  free(tt);
+  free (tt);
 
   return 0;
 }
 
-int queue_push(queue *queue, int val) {
+int
+queue_push (queue *queue, int val)
+{
   if (!queue)
     return -1; // invalid ass stuff
 
-  node *nd = malloc(sizeof(node));
+  list_node *nd = malloc (sizeof (list_node));
   if (!nd)
     return -3; // error 4
 
   linked_list *list = queue->list;
-  if (!list) {
-    queue->list = linked_list_constructor(val);
-    return (list) ? 0 : -2;
-  }
+  if (!list)
+    {
+      queue->list = linked_list_constructor (val);
+      return (list) ? 0 : -2;
+    }
 
   nd->val = val;
   nd->next = NULL;
@@ -80,20 +87,24 @@ int queue_push(queue *queue, int val) {
   return 0;
 }
 
-int queue_empty(queue *queue) {
+int
+queue_empty (queue *queue)
+{
   if (!queue)
-    return 0; // invalid ass shit
+    return 1; // invalid ass shit
 
   linked_list *list = queue->list;
   if (!list)
-    return 0; // error 2
+    return 1; // error 2
 
   return list->size == 0;
 }
 
-int queue_top_and_pop(queue *queue) {
-  int ret = queue_top(queue);
-  if (queue_pop(queue) < 0)
+LIST_VALUE_TYPE
+queue_top_and_pop (queue *queue)
+{
+  LIST_VALUE_TYPE ret = queue_top (queue);
+  if (queue_pop (queue) < 0)
     return INT_MIN; // error
   return ret;
 }
