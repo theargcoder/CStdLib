@@ -9,6 +9,7 @@ typedef struct tree_node
 {
   TREE_VALUE_TYPE val;
   int duplicates;
+  int height;
 
   struct tree_node *left, *right;
 } tree_node;
