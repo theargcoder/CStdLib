@@ -27,13 +27,13 @@ LIST_VALUE_TYPE
 queue_top (queue *queue)
 {
   if (!queue)
-    return INT_MIN; // invalid ass stuff
+    return -1; // invalid ass stuff
 
   linked_list *list = queue->list;
   if (!list)
-    return INT_MIN; // error 1
+    return -2; // error 1
   if (!list->root)
-    return INT_MIN; // error 2
+    return -3; // error 2
 
   return list->root->val;
 }
@@ -61,7 +61,7 @@ queue_pop (queue *queue)
 }
 
 int
-queue_push (queue *queue, int val)
+queue_push (queue *queue, LIST_VALUE_TYPE val)
 {
   if (!queue)
     return -1; // invalid ass stuff
